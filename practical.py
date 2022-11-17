@@ -93,20 +93,19 @@ class ReadInput:
         with open(self.inputFile) as f:
             lines = f.readlines()
 
-        return [int(lines[0][0]), int(lines[0][2]), int(lines[0][4])]
+        return list(map(int, lines[0].split()))
 
     def parse_edges(self):
         with open(self.inputFile) as f:
             lines = f.readlines()
 
         lines = lines[1:]
-
         edges = []
 
         for line in lines:
-            edges.append([int(line[0]), int(line[2]), int(line[4]), int(line[6])])
-        return (edges)
+            edges.append(list(map(int, line.split())))
 
+        return edges
 
 class Highway:
     def __init__(self, f, t, l, c):
@@ -118,14 +117,8 @@ class Highway:
     def print(self):
         print(self.fromCity, self.toCity, self.length, self.capacity)
 
-    
 def highways_to_graph(lht, highways):
-    graph = [
-        [0,0,0,0], 
-        [0,0,0,0], 
-        [0,0,0,0], 
-        [0,0,0,0]]
-
+    graph = [[0 for x in range(lht[0])] for y in range(lht[0])]
     for highway in highways:
         graph[highway.fromCity][highway.toCity] = highway.capacity
 
