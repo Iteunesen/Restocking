@@ -16,13 +16,14 @@ int main() {
 
     int totalMaxFlow = 0;
     int timesToRun = network.getTime();
-    
+
     for(int i = 0; i < timesToRun; i++) {
-        int maxFlow = network.fordFulkerson(graph, 0, 3);
-        std::cout << "Max flow at " << network.getTime() << " is " << maxFlow << "\n"; 
+        int maxFlow = network.fordFulkerson(graph, 0, network.getNoLocations() - 1);
+        //std::cout << "Max flow at " << network.getTime() << " is " << maxFlow << "\n"; 
         totalMaxFlow += maxFlow;
         network.setTime(network.getTime()-1);
     }
-
-    std::cout << "Total flow possible through network is: " << totalMaxFlow << "\n";
+    
+    std::cout << totalMaxFlow;
+    //std::cout << "Total flow possible through network is: " << totalMaxFlow << "\n";
 }

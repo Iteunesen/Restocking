@@ -3,21 +3,102 @@
 Network::Network() 
 {
     std::string line;
-    std::ifstream myfile ("input.txt");
-
-    if(myfile.is_open()) {
-        getline(myfile, line);
-        nLocations = (int)line[0] - 48;
-        nHighways = (int)line[2] - 48;
-        time = (int)line[4] - 48;
-        while (getline(myfile, line)) {
-            Highway edge((int)line[4] - 48, (int)line[6]- 48, (int)line[0] - 48, (int)line[2] - 48);
-            edges.push_back(edge);
+    std::string number;
+    int i = 0;
+    getline(std::cin, line);
+    for(auto x : line) {
+        if (x == ' ') {
+            if(i == 0) {
+                nLocations = std::stoi(number);
+                number = "";
+            } else if (i == 1) {
+                nHighways = std::stoi(number);
+                number = "";
+            }
+            i++;
+        } else {
+            number = number + x;
         }
-        myfile.close();
-    } else {
-        std::cout << "Can't open file" << "\n";
     }
+    time = std::stoi(number);
+    i = 0;
+    number = "";
+    while (getline(std::cin, line)) {
+        int start = 0, destination = 0, length = 0, capacity = 0;
+        for(auto x : line) {
+            if (x == ' ') {
+                if(i == 0) {
+                    start = std::stoi(number);
+                    number = "";
+                } else if (i == 1) {
+                    destination = std::stoi(number);
+                    number = "";
+                } else if (i == 2) {
+                    length = std::stoi(number); 
+                    number = ""; 
+                } 
+                i++;
+            } else {
+                number = number + x;
+            }
+        }
+        capacity = std::stoi(number);
+        number = "";
+        i = 0;
+        Highway edge(length, capacity, start, destination);
+        edges.push_back(edge);
+    }
+    // std::ifstream myfile ("input.txt");
+
+    // if(myfile.is_open()) {
+    //     getline(myfile, line);
+    //     for(auto x : line) {
+    //         if (x == ' ') {
+    //             if(i == 0) {
+    //                 nLocations = std::stoi(number);
+    //                 number = "";
+    //             } else if (i == 1) {
+    //                 nHighways = std::stoi(number);
+    //                 number = "";
+    //             }
+    //             i++;
+    //         } else {
+    //             number = number + x;
+    //         }
+    //     }
+    //     time = std::stoi(number);
+    //     i = 0;
+    //     number = "";
+        
+    //     while (getline(myfile, line)) {
+    //         int start = 0, destination = 0, length = 0, capacity = 0;
+    //         for(auto x : line) {
+    //             if (x == ' ') {
+    //                 if(i == 0) {
+    //                     start = std::stoi(number);
+    //                     number = "";
+    //                 } else if (i == 1) {
+    //                     destination = std::stoi(number);
+    //                     number = "";
+    //                 } else if (i == 2) {
+    //                     length = std::stoi(number); 
+    //                     number = ""; 
+    //                 } 
+    //                 i++;
+    //             } else {
+    //                 number = number + x;
+    //             }
+    //         }
+    //         capacity = std::stoi(number);
+    //         number = "";
+    //         i = 0;
+    //         Highway edge(length, capacity, start, destination);
+    //         edges.push_back(edge);
+    //     }
+    //     myfile.close();
+    // } else {
+    //     std::cout << "Can't open file" << "\n";
+    // }
 }
 
 Network::~Network() 
@@ -70,6 +151,7 @@ bool Network::bfs(std::vector<std::vector<std::pair<int, int>>> rGraph, int s, i
                     parent[v] = u;
                     std::vector<int> path = backtrace(parent, s, t);
                     //printPath(path);
+                    //std::cout << "Path length: " << calcPathLength(path, rGraph) << "\n";
                     if(calcPathLength(path, rGraph) <= time) {
                         return true;
                     }   

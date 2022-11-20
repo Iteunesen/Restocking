@@ -2,7 +2,6 @@
 #define HIGHWAY_HPP_
 
 #include <iostream>
-#include "Node.hpp"
 
 class Highway {
     public:
